@@ -59,7 +59,8 @@ class Composite extends AbstractAggregation
 
         $baseName = $this->_getBaseName();
 
-        $array[$baseName]['sources'] = $this->_convertArrayable($this->_sources);
+        // We need the sources field to be an array of objects
+        $array[$baseName]['sources'] = array_map(function($aggregation) { return [$aggregation->getName() => $aggregation->toArray()]; }, $this->_sources);
 
         return $array;
     }
