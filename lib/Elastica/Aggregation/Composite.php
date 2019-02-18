@@ -29,6 +29,18 @@ class Composite extends AbstractAggregation
     }
 
     /**
+     * Sets the key after which the buckets should be returned (after_key of a previous composite result)
+     *
+     * @param array $after
+     *
+     * @return Composite
+     */
+    public function setAfter($after)
+    {
+        return $this->setParam('after', $after);
+    }
+
+    /**
      * Adds a source
      *
      * @param AbstractAggregation $aggregation The aggregation to add as source
