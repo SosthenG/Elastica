@@ -113,7 +113,7 @@ class AbstractUpdateAction extends Param
      */
     public function setVersion($version)
     {
-        return $this->setParam('_version', (int) $version);
+        return $this->setParam('version', (int) $version);
     }
 
     /**
@@ -123,7 +123,7 @@ class AbstractUpdateAction extends Param
      */
     public function getVersion()
     {
-        return $this->getParam('_version');
+        return $this->getParam('version');
     }
 
     /**
@@ -131,7 +131,7 @@ class AbstractUpdateAction extends Param
      */
     public function hasVersion()
     {
-        return $this->hasParam('_version');
+        return $this->hasParam('version');
     }
 
     /**
@@ -144,7 +144,7 @@ class AbstractUpdateAction extends Param
      */
     public function setVersionType($versionType)
     {
-        return $this->setParam('_version_type', $versionType);
+        return $this->setParam('version_type', $versionType);
     }
 
     /**
@@ -154,7 +154,7 @@ class AbstractUpdateAction extends Param
      */
     public function getVersionType()
     {
-        return $this->getParam('_version_type');
+        return $this->getParam('version_type');
     }
 
     /**
@@ -162,7 +162,7 @@ class AbstractUpdateAction extends Param
      */
     public function hasVersionType()
     {
-        return $this->hasParam('_version_type');
+        return $this->hasParam('version_type');
     }
 
     /**
@@ -176,7 +176,7 @@ class AbstractUpdateAction extends Param
      */
     public function setParent($parent)
     {
-        return $this->setParam('_parent', $parent);
+        return $this->setParam('parent', $parent);
     }
 
     /**
@@ -186,7 +186,7 @@ class AbstractUpdateAction extends Param
      */
     public function getParent()
     {
-        return $this->getParam('_parent');
+        return $this->getParam('parent');
     }
 
     /**
@@ -194,7 +194,7 @@ class AbstractUpdateAction extends Param
      */
     public function hasParent()
     {
-        return $this->hasParam('_parent');
+        return $this->hasParam('parent');
     }
 
     /**
@@ -236,7 +236,7 @@ class AbstractUpdateAction extends Param
      */
     public function setRouting($value)
     {
-        return $this->setParam('_routing', $value);
+        return $this->setParam('routing', $value);
     }
 
     /**
@@ -246,7 +246,7 @@ class AbstractUpdateAction extends Param
      */
     public function getRouting()
     {
-        return $this->getParam('_routing');
+        return $this->getParam('routing');
     }
 
     /**
@@ -254,7 +254,7 @@ class AbstractUpdateAction extends Param
      */
     public function hasRouting()
     {
-        return $this->hasParam('_routing');
+        return $this->hasParam('routing');
     }
 
     /**
@@ -302,7 +302,7 @@ class AbstractUpdateAction extends Param
      */
     public function setRetryOnConflict($num)
     {
-        return $this->setParam('_retry_on_conflict', (int) $num);
+        return $this->setParam('retry_on_conflict', (int) $num);
     }
 
     /**
@@ -310,7 +310,7 @@ class AbstractUpdateAction extends Param
      */
     public function getRetryOnConflict()
     {
-        return $this->getParam('_retry_on_conflict');
+        return $this->getParam('retry_on_conflict');
     }
 
     /**
@@ -318,7 +318,7 @@ class AbstractUpdateAction extends Param
      */
     public function hasRetryOnConflict()
     {
-        return $this->hasParam('_retry_on_conflict');
+        return $this->hasParam('retry_on_conflict');
     }
 
     /**
@@ -454,6 +454,8 @@ class AbstractUpdateAction extends Param
         return null !== $this->_upsert;
     }
 
+    const WITHOUT_UNDERSCORE_FIELDS = ['parent', 'retry_on_conflict', 'routing', 'version', 'version_type'];
+
     /**
      * @param array $fields         if empty array all options will be returned, field names can be either with underscored either without, i.e. _percolate, routing
      * @param bool  $withUnderscore should option keys contain underscore prefix
@@ -465,7 +467,7 @@ class AbstractUpdateAction extends Param
         if (!empty($fields)) {
             $data = [];
             foreach ($fields as $field) {
-                $key = '_'.ltrim($field, '_');
+                $key = in_array($field, self::WITHOUT_UNDERSCORE_FIELDS) ? ltrim($field, '_') : '_'.ltrim($field, '_');
                 if ($this->hasParam($key) && '' !== (string) $this->getParam($key)) {
                     $data[$key] = $this->getParam($key);
                 }
